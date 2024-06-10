@@ -42,14 +42,20 @@ app.use("/api/admin", admin);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/password", password);
 
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to the API');
+});
+
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
-
   return res.status(errorStatus).send(errorMessage);
 });
 
-app.listen(8800, () => {
+const port = process.env.PORT || 8800;
+
+app.listen(port, () => {
   connect();
-  console.log("Backend server is running!");
+  console.log(`Backend server is running on port ${port}!`);
 });
