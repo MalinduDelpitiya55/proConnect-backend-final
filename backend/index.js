@@ -14,7 +14,7 @@ import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import Gig from "./models/gig.model.js";
+import Gig from "../models/gig.model.js";
 dotenv.config();
 mongoose.set("strictQuery", true);
 
@@ -51,23 +51,13 @@ app.get('/', (req, res) => {
 
 // Health check route
 app.get('/health', (req, res, next) => {
-  const q = req.query;
-  const filters = {
-    ...(q.userId && { userId: q.userId }),
-    ...(q.cat && { cat: q.cat }),
-    ...((q.min || q.max) && {
-      price: {
-        ...(q.min && { $gt: q.min }),
-        ...(q.max && { $lt: q.max }),
-      },
-    }),
-    ...(q.search && { title: { $regex: q.search, $options: "i" } }),
-  };
   try {
-    const gigs = Gig.find(filters).sort({ [q.sort]: -1 });
-    res.status(200).send(gigs);
-  } catch (err) {
-    next(err);
+    const sellerCount =  User.countDocuments({ isSeller: true });
+    const buyerCount =  User.countDocuments({ isSeller: false });
+    res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
+  } catch (error) {
+    console.error('Error fetching users count by type:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
