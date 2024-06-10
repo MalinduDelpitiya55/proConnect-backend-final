@@ -1,0 +1,120 @@
+# Node.js specific files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.test
+.env.production
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Optional dependency directories
+bower_components/
+jspm_packages/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Test coverage
+coverage/
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components/
+
+# Cache and lock files
+package-lock.json
+yarn.lock
+
+# Miscellaneous
+public/
+.temp/
+.pnpm-debug.log*
+
+# Optional IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Optional directories created by tools like WebStorm
+.sass-cache/
+.styled-components/
+.nyc_output/
+.next/
+
+# Optional eslint directories
+.npmrc
+
+# Optional transpiler cache
+.lib-cov
+
+# Optional coverage results
+coverage/
+
+# Optional build folders
+dist/
+build/
+
+# Optional temporary files
+*.swp
+*~
+.project
+.settings/
+.tmproj
+*.tmproj
+
+# Optional Typescript cache
+*.tsbuildinfo
+
+# Optional local environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependency directories
+node_modules/
+
+# Optional Mac files
+.AppleDouble
+.LSOverride
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# Windows system file
+ehthumbs.db
+
+# Windows thumb cache
+Thumbs.db
