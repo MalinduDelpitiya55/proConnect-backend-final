@@ -50,21 +50,19 @@ app.get('/', (req, res) => {
 });
 
 // Health check route
-app.get('/health', (req, res, next) => {
+// Health check route
+app.get('/health', async (req, res, next) => {
   try {
-    const sellerCount =  User.countDocuments({ isSeller: true });
-    const buyerCount =  User.countDocuments({ isSeller: false });
+    const sellerCountPromise = User.countDocuments({ isSeller: true }).exec();
+    const buyerCountPromise = User.countDocuments({ isSeller: false }).exec();
+
+    const [sellerCount, buyerCount] = await Promise.all([sellerCountPromise, buyerCountPromise]);
+
     res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
   } catch (error) {
     console.error('Error fetching users count by type:', error);
-    res.status(500).json({ message: 'Internal Server Error' , error:error});
+    res.status(500).json({ message: 'Internal Server Error', error: error });
   }
-});
-
-app.use((err, req, res, next) => {
-  const errorStatus = err.status || 500;
-  const errorMessage = err.message || "Something went wrong!";
-  return res.status(errorStatus).send(errorMessage);
 });
 
 const port = process.env.PORT || 8800;
