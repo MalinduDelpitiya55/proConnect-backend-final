@@ -57,7 +57,7 @@ app.get('/health', (req, res, next) => {
     res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
   } catch (error) {
     console.error('Error fetching users count by type:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' , error:error});
   }
 });
 
