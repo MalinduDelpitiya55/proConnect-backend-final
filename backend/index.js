@@ -54,11 +54,11 @@ app.get('/', (req, res) => {
 app.get('/health', async (req, res, next) => {
   try {
     const sellerCountPromise = User.countDocuments({ isSeller: true }).exec();
-    const buyerCountPromise = User.countDocuments({ isSeller: false }).exec();
+    //const buyerCountPromise = User.countDocuments({ isSeller: false }).exec();
 
-    const [sellerCount, buyerCount] = await Promise.all([sellerCountPromise, buyerCountPromise]);
+    const [sellerCount] = await Promise.all([sellerCountPromise]);
 
-    res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
+    res.status(200).json({ sellers: sellerCount});
   } catch (error) {
     console.error('Error fetching users count by type:', error);
     res.status(500).json({ message: 'Internal Server Error', error: error });
