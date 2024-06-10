@@ -14,9 +14,10 @@ import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-const app = express();
 dotenv.config();
 mongoose.set("strictQuery", true);
+
+const app = express();
 
 const connect = async () => {
   try {
@@ -45,6 +46,11 @@ app.use("/api/password", password);
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the API');
+});
+
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('API is running');
 });
 
 app.use((err, req, res, next) => {
