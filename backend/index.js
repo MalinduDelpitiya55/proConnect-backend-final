@@ -14,7 +14,7 @@ import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import Gig from "../models/gig.model.js";
+import User from "./models/user.model.js";
 dotenv.config();
 mongoose.set("strictQuery", true);
 
