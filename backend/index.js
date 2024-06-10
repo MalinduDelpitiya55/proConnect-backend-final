@@ -14,6 +14,7 @@ import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
+import Gig from "./models/gig.model.js";
 dotenv.config();
 mongoose.set("strictQuery", true);
 
@@ -49,8 +50,25 @@ app.get('/', (req, res) => {
 });
 
 // Health check route
-app.get('/health', (req, res) => {
-  res.status(200).send('API is running');
+app.get('/health', (req, res, next) => {
+  const q = req.query;
+  const filters = {
+    ...(q.userId && { userId: q.userId }),
+    ...(q.cat && { cat: q.cat }),
+    ...((q.min || q.max) && {
+      price: {
+        ...(q.min && { $gt: q.min }),
+        ...(q.max && { $lt: q.max }),
+      },
+    }),
+    ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+  };
+  try {
+    const gigs = Gig.find(filters).sort({ [q.sort]: -1 });
+    res.status(200).send(gigs);
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use((err, req, res, next) => {
