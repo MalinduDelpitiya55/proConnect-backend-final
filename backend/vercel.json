@@ -2,19 +2,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.js", // Ensure this matches your entry file
+      "src": "app.js", 
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "app.js" // Ensure this matches your entry file
+      "dest": "app.js"
     }
   ],
   "functions": {
     "api/*": {
-      "maxDuration": 30 // Optional: Increase the max duration if needed
+      "maxDuration": 30 
     }
   }
 }
