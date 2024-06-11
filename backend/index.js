@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
   console.log("Server is runing...");
 });
 app.get("/abc", (req, res) => {
-  res.json("abc");
+  res.json({ "key": "abc" });
   console.log("Server is runing...");
 });
 app.use((err, req, res, next) => {
