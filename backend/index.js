@@ -13,24 +13,33 @@ import password from "./routes/password.js";
 import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import User from './models/user.model.js'
-const app = express();
+import User from './models/user.model.js';
+
+// Load environment variables
 dotenv.config();
+
+const app = express();
 mongoose.set("strictQuery", true);
 
 const connect = async () => {
   try {
-    await mongoose.connect('mongodb+srv://malindu:abc1234@malindu.skflmg0.mongodb.net/first?retryWrites=true&w=majority&appName=malindu',{useNewUrlParser: true, useUnifiedTopology: true,});
-    console.log("Connected to mongoDB!");
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MONGO_URI is not defined');
+    }
+    await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("Connected to MongoDB!");
   } catch (error) {
     console.log("Error connecting to MongoDB:", error);
   }
 };
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-const router = express.Router();
+
+// Routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/gigs", gigRoute);
@@ -41,45 +50,55 @@ app.use("/api/reviews", reviewRoute);
 app.use("/api/admin", admin);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/password", password);
+
 app.get("/", (req, res) => {
   res.send("Welcome!");
-  console.log("Server is runing...");
+  console.log("Server is running...");
 });
+
 app.get("/ping", async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(500).json({ message: "MongoDB is not connected" });
+    }
     const admin = mongoose.connection.db.admin();
-    await admin.ping();
-    res.status(200).json({ message: "MongoDB is reachable" });
+    const result = await admin.ping();
+    res.status(200).json({ message: "MongoDB is reachable", result });
   } catch (error) {
     console.error("Error pinging MongoDB:", error);
     res.status(500).json({ message: "Error pinging MongoDB" });
   }
 });
+
 app.get("/abc", async (req, res) => {
   console.log("1");
   try {
     console.log("2");
-    const a = 2;
     const sellerCount = await User.countDocuments({ isSeller: true });
     console.log("3");
     const buyerCount = await User.countDocuments({ isSeller: false });
     console.log("4");
-    res.status(200).json({ sellers: sellerCount, buyers: buyerCount , buyerCount: buyerCount});
+    res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
   } catch (error) {
     console.error('Error fetching users count by type:', error);
-    console.log("error");
     res.status(500).json({ message: 'Internal Server Error' });
   }
-  console.log("Server is runing...");
+  console.log("Server is running...");
 });
+
+// Error handling middleware
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
-
   return res.status(errorStatus).send(errorMessage);
 });
 
-app.listen(8800, () => {
-  connect();
-  console.log("Backend server is running!");
-});
+// Start the server
+const startServer = async () => {
+  await connect(); // Ensure MongoDB connection is established first
+  app.listen(8800, () => {
+    console.log("Backend server is running!");
+  });
+};
+
+startServer();
