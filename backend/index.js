@@ -43,6 +43,7 @@ app.use("/api/seller", sellerRoutes);
 app.use("/api/password", password);
 app.get("/", (req, res) => {
   res.send("Welcome!");
+  console.log("Server is runing...");
 });
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

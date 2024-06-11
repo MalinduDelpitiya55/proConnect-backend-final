@@ -1,7 +1,7 @@
 import express from "express";
 import {
     getUsersCountByType, getTotalCompletedOrderPrices, getTotalGigCount
-    
+
 } from "./../controllers/admin.controllers.js";
 
 import { getGigDetails, admindeleteGig } from './../controllers/table.controllers/gigstable.controller.js'
