@@ -45,6 +45,10 @@ app.get("/", (req, res) => {
   res.send("Welcome!");
   console.log("Server is runing...");
 });
+app.get("/abc", (req, res) => {
+  res.json("abc");
+  console.log("Server is runing...");
+});
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
