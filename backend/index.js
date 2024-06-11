@@ -45,6 +45,16 @@ app.get("/", (req, res) => {
   res.send("Welcome!");
   console.log("Server is runing...");
 });
+app.get("/ping", async (req, res) => {
+  try {
+    const admin = mongoose.connection.db.first();
+    await admin.ping();
+    res.status(200).json({ message: "MongoDB is reachable" });
+  } catch (error) {
+    console.error("Error pinging MongoDB:", error);
+    res.status(500).json({ message: "Error pinging MongoDB" });
+  }
+});
 app.get("/abc", async (req, res) => {
   console.log("1");
   try {
