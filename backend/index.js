@@ -13,7 +13,7 @@ import password from "./routes/password.js";
 import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import User from './models/user.model.js'
 const app = express();
 dotenv.config();
 mongoose.set("strictQuery", true);
@@ -45,8 +45,15 @@ app.get("/", (req, res) => {
   res.send("Welcome!");
   console.log("Server is runing...");
 });
-app.get("/abc", (req, res) => {
-  res.json({ "key": "abc" });
+app.get("/abc", async (req, res) => {
+  try {
+    const sellerCount = await User.countDocuments({ isSeller: true });
+    const buyerCount = await User.countDocuments({ isSeller: false });
+    res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
+  } catch (error) {
+    console.error('Error fetching users count by type:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
   console.log("Server is runing...");
 });
 app.use((err, req, res, next) => {
