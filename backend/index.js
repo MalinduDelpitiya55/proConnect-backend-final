@@ -46,7 +46,9 @@ app.get("/", (req, res) => {
   console.log("Server is runing...");
 });
 app.get("/abc", async (req, res) => {
+  console.log("1");
   try {
+    console.log("2");
     const sellerCount = await User.countDocuments({ isSeller: true });
     const buyerCount = await User.countDocuments({ isSeller: false });
     res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
