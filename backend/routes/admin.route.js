@@ -11,6 +11,9 @@ import { sellersDetails, admindeletesellersDetails } from './../controllers/tabl
 import { getratingDetails, adminratingGig, adminratingedit } from './../controllers/table.controllers/rating.controler.js'
 
 const router = express.Router();
+router.get('/test', (req, res) => {
+    res.json({ message: "admin route" });
+})
 router.post("/userCount", getUsersCountByType);
 router.post("/getTotalCompletedOrderPrices", getTotalCompletedOrderPrices);
 router.post("/getTotalGigCount", getTotalGigCount);
