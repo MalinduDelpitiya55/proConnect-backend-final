@@ -30,7 +30,7 @@ const connect = async () => {
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-
+const router = express.Router();
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/gigs", gigRoute);
@@ -41,7 +41,9 @@ app.use("/api/reviews", reviewRoute);
 app.use("/api/admin", admin);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/password", password);
-
+app.get("/", (req, res) => {
+  res.send("Welcome!");
+});
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
