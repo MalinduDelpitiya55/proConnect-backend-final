@@ -48,19 +48,13 @@ app.get("/", (req, res) => {
 app.get("/abc", async (req, res) => {
   console.log("1");
   try {
-    console.log("2");
-    const a = 2;
-    const sellerCount = await User.countDocuments({ isSeller: true });
-    console.log("3");
-    const buyerCount = await User.countDocuments({ isSeller: false });
-    console.log("4");
-    res.status(200).json({ sellers: sellerCount, buyers: buyerCount, buyerCount: a });
+    const users = await User.find();  // Await the asynchronous operation
+    res.status(200).json({ users });
   } catch (error) {
-    console.error('Error fetching users count by type:', error);
-    console.log("error");
+    console.error('Error fetching users:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-  console.log("Server is runing...");
+  console.log("Server is running...");
 });
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
