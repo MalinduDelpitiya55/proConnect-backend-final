@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
 });
 app.get("/ping", async (req, res) => {
   try {
-    const admin = mongoose.connection.db.first();
+    const admin = mongoose.connection.db.admin();
     await admin.ping();
     res.status(200).json({ message: "MongoDB is reachable" });
   } catch (error) {
