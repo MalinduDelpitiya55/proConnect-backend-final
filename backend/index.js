@@ -49,11 +49,15 @@ app.get("/abc", async (req, res) => {
   console.log("1");
   try {
     console.log("2");
+    const a = 2;
     const sellerCount = await User.countDocuments({ isSeller: true });
+    console.log("3");
     const buyerCount = await User.countDocuments({ isSeller: false });
-    res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
+    console.log("4");
+    res.status(200).json({ sellers: sellerCount, buyers: buyerCount, buyerCount: a });
   } catch (error) {
     console.error('Error fetching users count by type:', error);
+    console.log("error");
     res.status(500).json({ message: 'Internal Server Error' });
   }
   console.log("Server is runing...");
