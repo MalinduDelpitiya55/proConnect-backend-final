@@ -20,10 +20,10 @@ mongoose.set("strictQuery", true);
 
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO);
+    await mongoose.connect('mongodb+srv://malindu:abc1234@malindu.skflmg0.mongodb.net/first?retryWrites=true&w=majority&appName=malindu');
     console.log("Connected to mongoDB!");
   } catch (error) {
-    console.log(error);
+    console.log("Error connecting to MongoDB:", error);
   }
 };
 
