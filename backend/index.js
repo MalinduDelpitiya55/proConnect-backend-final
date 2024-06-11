@@ -27,7 +27,7 @@ const connect = async () => {
   }
 };
 
-app.use(cors("https://fiverr-clone-backend.vercel.app/"));
+app.use(cors("http://localhost:5173/"));
 app.use(express.json());
 app.use(cookieParser());
 const router = express.Router();
