@@ -14,11 +14,9 @@ import sellerRoutes from "./routes/seller.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import User from "./models/user.model.js";
+const app = express();
 dotenv.config();
 mongoose.set("strictQuery", true);
-
-const app = express();
 
 const connect = async () => {
   try {
@@ -29,7 +27,7 @@ const connect = async () => {
   }
 };
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -44,30 +42,14 @@ app.use("/api/admin", admin);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/password", password);
 
-// Root route
-app.get('/', (req, res) => {
-  res.send('Welcome to the API');
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong!";
+
+  return res.status(errorStatus).send(errorMessage);
 });
 
-// Health check route
-// Health check route
-app.get('/health', async (req, res, next) => {
-  try {
-    const sellerCountPromise = User.countDocuments({ isSeller: true }).exec();
-    //const buyerCountPromise = User.countDocuments({ isSeller: false }).exec();
-
-    const [sellerCount] = await Promise.all([sellerCountPromise]);
-
-    res.status(200).json({ sellers: sellerCount});
-  } catch (error) {
-    console.error('Error fetching users count by type:', error);
-    res.status(500).json({ message: 'Internal Server Error', error: error });
-  }
-});
-
-const port = process.env.PORT || 8800;
-
-app.listen(port, () => {
+app.listen(8800, () => {
   connect();
-  console.log(`Backend server is running on port ${port}!`);
+  console.log("Backend server is running!");
 });
