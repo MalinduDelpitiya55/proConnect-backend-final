@@ -36,8 +36,8 @@ const connect = async () => {
 
 // Middleware
 const corsOptions = {
-  origin: 'http://localhost:5173/',
-  credentials: true,
+  origin: 'http://localhost:5173', // No trailing slash
+  credentials: true, // Allow credentials like cookies
 };
 
 app.use(cors(corsOptions));
