@@ -36,8 +36,8 @@ const connect = async () => {
 
 // Middleware
 const corsOptions = {
-  origin: 'http://localhost:5173', // No trailing slash
-  credentials: true, // Allow credentials like cookies
+  origin: 'http://fiver-clone-eight.vercel.app',
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
