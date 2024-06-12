@@ -35,7 +35,12 @@ const connect = async () => {
 };
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: 'https://fiver-clone-eight.vercel.app',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
