@@ -36,7 +36,7 @@ const connect = async () => {
 
 // Middleware
 const corsOptions = {
-  origin: 'http://fiver-clone-eight.vercel.app',
+  origin: 'https://fiver-clone-eight.vercel.app',
   credentials: true,
 };
 
