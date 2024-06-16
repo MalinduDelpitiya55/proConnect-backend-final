@@ -43,8 +43,9 @@ export const sellerUpdate = async (req, res) => {
         console.error('Error saving/updating seller data:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
-}
+};
 
+// Endpoint to fetch seller data
 export const getSellerData = async (req, res) => {
     try {
         const userId = req.params.id; // Assuming userId is sent from the frontend as a parameter
@@ -53,44 +54,33 @@ export const getSellerData = async (req, res) => {
         if (existingSeller) {
             res.status(200).json(existingSeller); // Send the seller data in the response
         } else {
-            const nullSellerData = {
-                title: '',
-                skills: ['', '', ''],
-                qualifications: ['', ''],
-                education: [
-                    {
-                        institution: '',
-                        degree: '',
-                        _id: new mongoose.Types.ObjectId()
-                    },
-                    {
-                        institution: '',
-                        degree: '',
-                        _id: new mongoose.Types.ObjectId()
-                    }
-                ]
-            };
+            const nullSellerData = generateNullSellerData();
             res.status(200).json(nullSellerData);
         }
     } catch (error) {
         console.error('Error fetching seller data:', error);
-        const nullSellerData = {
-            title: '',
-            skills: ['', '', ''],
-            qualifications: ['', ''],
-            education: [
-                {
-                    institution: '',
-                    degree: '',
-                    _id: new mongoose.Types.ObjectId()
-                },
-                {
-                    institution: '',
-                    degree: '',
-                    _id: new mongoose.Types.ObjectId()
-                }
-            ]
-        };
+        const nullSellerData = generateNullSellerData();
         res.status(200).json(nullSellerData);
     }
-}
+};
+
+// Helper function to generate a null seller data object
+const generateNullSellerData = () => {
+    return {
+        title: '',
+        skills: ['', '', ''],
+        qualifications: ['', ''],
+        education: [
+            {
+                institution: '',
+                degree: '',
+                _id: new mongoose.Types.ObjectId()
+            },
+            {
+                institution: '',
+                degree: '',
+                _id: new mongoose.Types.ObjectId()
+            }
+        ]
+    };
+};

@@ -7,7 +7,7 @@ const router = express.Router();
 // router.post("/:gigId", verifyToken, createOrder);
 router.get("/", verifyToken, getOrders);
 router.post("/create-payment-intent/:id", verifyToken, intent);
-router.put("/", verifyToken, confirm);
+router.post("/", verifyToken, confirm);
 router.post("/updateOrder/:id", updateOrder);
 
 export default router;

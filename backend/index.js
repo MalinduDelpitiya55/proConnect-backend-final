@@ -36,7 +36,7 @@ const connect = async () => {
 
 // Middleware
 const corsOptions = {
-  origin: 'https://fiver-clone-eight.vercel.app',
+  origin: 'https://fiver-clone-eight.vercel.app/',
   credentials: true,
 };
 
@@ -73,22 +73,6 @@ app.get("/ping", async (req, res) => {
     console.error("Error pinging MongoDB:", error);
     res.status(500).json({ message: "Error pinging MongoDB" });
   }
-});
-
-app.get("/abc", async (req, res) => {
-  console.log("1");
-  try {
-    console.log("2");
-    const sellerCount = await User.countDocuments({ isSeller: true });
-    console.log("3");
-    const buyerCount = await User.countDocuments({ isSeller: false });
-    console.log("4");
-    res.status(200).json({ sellers: sellerCount, buyers: buyerCount });
-  } catch (error) {
-    console.error('Error fetching users count by type:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-  console.log("Server is running...");
 });
 
 // Error handling middleware

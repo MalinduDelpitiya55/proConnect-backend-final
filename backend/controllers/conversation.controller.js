@@ -1,6 +1,8 @@
+// Import necessary modules
 import createError from "../utils/createError.js";
 import Conversation from "../models/conversation.model.js";
 
+// Create a new conversation
 export const createConversation = async (req, res, next) => {
   const newConversation = new Conversation({
     id: req.isSeller ? req.userId + req.body.to : req.body.to + req.userId,
@@ -18,19 +20,22 @@ export const createConversation = async (req, res, next) => {
   }
 };
 
+// Update conversation read status
 export const updateConversation = async (req, res, next) => {
   try {
     const updatedConversation = await Conversation.findOneAndUpdate(
       { id: req.params.id },
       {
         $set: {
-          // readBySeller: true,
-          // readByBuyer: true,
           ...(req.isSeller ? { readBySeller: true } : { readByBuyer: true }),
         },
       },
       { new: true }
     );
+
+    if (!updatedConversation) {
+      return next(createError(404, "Conversation not found!"));
+    }
 
     res.status(200).send(updatedConversation);
   } catch (err) {
@@ -38,6 +43,7 @@ export const updateConversation = async (req, res, next) => {
   }
 };
 
+// Get a single conversation by ID
 export const getSingleConversation = async (req, res, next) => {
   try {
     const conversation = await Conversation.findOne({ id: req.params.id });
@@ -48,11 +54,11 @@ export const getSingleConversation = async (req, res, next) => {
   }
 };
 
+// Get all conversations for the current user
 export const getConversations = async (req, res, next) => {
   try {
-    const conversations = await Conversation.find(
-      req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }
-    ).sort({ updatedAt: -1 });
+    const filter = req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId };
+    const conversations = await Conversation.find(filter).sort({ updatedAt: -1 });
     res.status(200).send(conversations);
   } catch (err) {
     next(err);

@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
       },
       process.env.JWT_KEY
     );
-    console.log("access token generated");
+    
 
     const { password, ...info } = user._doc;
     res
@@ -45,6 +45,7 @@ export const login = async (req, res, next) => {
       })
       .status(200)
       .send(info);
+    console.log(info);
   } catch (err) {
     next(err);
     console.log(err);
